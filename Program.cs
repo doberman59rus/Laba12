@@ -58,5 +58,30 @@ class Program
 
         Console.WriteLine("\nКлонированный список:");
         Point.ShowList(clonedList);
+
+        MyHashSet hashSet = new MyHashSet();
+
+        //добавляем часы разных брендов
+        hashSet.Add(new Watch("Rolex", 2020));
+        hashSet.Add(new AnalogWatch("Casio", 2021, "Sport"));
+        hashSet.Add(new ElectronicWatch("Samsung", 2022, "AMOLED"));
+        
+        //печать после добавления
+        hashSet.PrintHS();
+        
+        //проверяем наличие бренда
+        bool hasCasio = hashSet.Contains("Casio");
+        Console.WriteLine($"Содержит Casio: {hasCasio}");
+
+        //удаляем бренд
+        bool removed = hashSet.Remove("Casio");
+        Console.WriteLine($"Удален Casio: {removed}");
+
+        //печать после удаления
+        hashSet.PrintHS();
+
+        //проверяем снова
+        hasCasio = hashSet.Contains("Casio");
+        Console.WriteLine($"Содержит Casio после удаления: {hasCasio}");
     }
 }

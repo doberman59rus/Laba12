@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WatchLibrary;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LAB12
 {
     //определение двунаправленного списка
-    public class Point : ICloneable
+    class Point : ICloneable
     {
         public Watch data { get; set; }
         public Point next;//адрес следующего элемента
@@ -37,7 +36,7 @@ namespace LAB12
         //ICloneable
         public object Clone()
         {
-            // Глубокое клонирование с учетом типа объекта
+            //глубокое клонирование с учетом типа объекта
             if (data is SmartWatch smart)
                 return new Point(new SmartWatch(smart));
             if (data is ElectronicWatch electronic)
@@ -288,6 +287,10 @@ namespace LAB12
                     beg.pred = null;
                 }
             }
+        }
+        public override int GetHashCode()
+        {
+            return data?.GetHashCode()??0;
         }
     }
 }
