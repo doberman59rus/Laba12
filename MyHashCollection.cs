@@ -12,6 +12,7 @@ namespace LAB12
     {
         private Dictionary<string, T> items = new Dictionary<string, T>();
 
+        public MyHashCollection() { }
         //конструктор с заданным количеством элементов
         public MyHashCollection(int length)
         {
