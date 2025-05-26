@@ -206,4 +206,114 @@ namespace LAB12
             StringAssert.Contains(consoleOutput.ToString(), "Дерево пустое");
         }
     }
+    [TestClass]
+    public class MyCollectionTests
+    {
+        [TestMethod]
+        public void TestMyCollection_AddAndCount()
+        {
+            var collection = new MyCollection<Watch>();
+            collection.Add(new Watch("Rolex", 2020));
+            collection.Add(new AnalogWatch("Casio", 2021, "Sport"));
+
+            Assert.AreEqual(2, collection.Count);
+        }
+
+        [TestMethod]
+        public void TestMyCollection_Remove()
+        {
+            var watch = new ElectronicWatch("Sony", 2022, "OLED");
+            var collection = new MyCollection<Watch> { watch };
+
+            bool removed = collection.Remove(watch);
+
+            Assert.IsTrue(removed);
+            Assert.AreEqual(0, collection.Count);
+        }
+
+        [TestMethod]
+        public void TestMyCollection_Contains()
+        {
+            var watch = new SmartWatch("Apple", 2023, "AMOLED", "WatchOS", true);
+            var collection = new MyCollection<Watch> { watch };
+
+            bool contains = collection.Contains(watch);
+
+            Assert.IsTrue(contains);
+        }
+    }
+    [TestClass]
+    public class MyTreeCollectionTests
+    {
+        [TestMethod]
+        public void TestMyTreeCollection_AddAndTraverse()
+        {
+            var tree = new MyTreeCollection<Watch>();
+            tree.Add(new Watch("A", 2000));
+            tree.Add(new Watch("B", 1999));
+            tree.Add(new Watch("C", 2001));
+
+            var years = tree.Select(w => w.YearOfManufacture).ToList();
+
+            CollectionAssert.AreEqual(new[] { 1999, 2000, 2001 }, years);
+        }
+
+        [TestMethod]
+        public void TestMyTreeCollection_Remove()
+        {
+            var watch = new AnalogWatch("Vostok", 1985, "Military");
+            var tree = new MyTreeCollection<Watch>();
+            tree.Add(watch);
+
+            bool removed = tree.Remove(watch);
+
+            Assert.IsTrue(removed);
+            Assert.AreEqual(0, tree.Count());
+        }
+
+        [TestMethod]
+        public void TestMyTreeCollection_ConstructorWithLength()
+        {
+            var tree = new MyTreeCollection<ElectronicWatch>(5);
+
+            Assert.AreEqual(5, tree.Count());
+        }
+    }
+
+    [TestClass]
+    public class MyHashCollectionTests
+    {
+        [TestMethod]
+        public void TestMyHashCollection_AddAndGet()
+        {
+            var hash = new MyHashCollection<Watch>();
+            hash.Add("rolex", new Watch("Rolex", 2020));
+
+            Assert.AreEqual(2020, hash["rolex"].YearOfManufacture);
+        }
+
+        [TestMethod]
+        public void TestMyHashCollection_KeyCollision()
+        {
+            var hash = new MyHashCollection<Watch>();
+            hash.Add("casio", new Watch("Casio", 2019));
+
+            // Должно перезаписать предыдущее значение
+            hash.Add("casio", new Watch("Casio", 2020));
+
+            Assert.AreEqual(2020, hash["casio"].YearOfManufacture);
+        }
+
+        [TestMethod]
+        public void TestMyHashCollection_Remove()
+        {
+            var hash = new MyHashCollection<SmartWatch>();
+            hash.Add("apple", new SmartWatch("Apple", 2023, "OLED", "WatchOS", true));
+
+            bool removed = hash.Remove("apple");
+
+            Assert.IsTrue(removed);
+            Assert.IsFalse(hash.ContainsKey("apple"));
+        }
+    }
 }
